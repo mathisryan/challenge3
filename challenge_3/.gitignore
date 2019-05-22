@@ -1,1 +1,10 @@
-public/app.js
+node_modules
+../.gitignore
+../challenge_1/client/app.jsx
+../challenge_1/public/index.html
+../challenge_2/client/app.jsx
+../challenge_2/public/index.html
+../challenge_1/.babelrc
+../challenge_1/package-lock.json
+../challenge_1/package.json
+../challenge_1/webpack.config.js

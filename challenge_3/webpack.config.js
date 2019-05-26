@@ -3,10 +3,10 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './client/index.jsx',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     publicPath: "/assets/"
   },
   mode: "development",
@@ -30,6 +30,8 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebPackPlugin()
+    new HtmlWebPackPlugin({
+      template: './client/index.html'
+    })
   ]
 };

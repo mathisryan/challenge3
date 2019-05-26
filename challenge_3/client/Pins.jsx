@@ -9,6 +9,7 @@ function Pins(props) {
 
   return (
     <div>
+      {props.upright === 0 && <h1>Game Over!</h1>}
       <table>
         <tbody>
           {props.upright > 0 && <FirstRow upright={props.upright} handleClick={handleSelect} />}
@@ -20,7 +21,7 @@ function Pins(props) {
           {props.upright > 3 && <ThirdRow upright={props.upright} handleClick={handleSelect} />}
         </tbody>
         <tbody>
-          {props.upright > 6 && <FourthRow upright={props.upright} handleClick={handleSelect} />}
+          {props.upright > 5 && <FourthRow upright={props.upright} handleClick={handleSelect} />}
         </tbody>
       </table>
     </div>
@@ -62,7 +63,6 @@ function ThirdRow(props) {
       <td onClick={() => props.handleClick(4)}>Four</td>
       <td></td>
       {props.upright > 4 ? <td onClick={() => props.handleClick(5)}>Five</td> : <td></td>}
-      <td onClick={() => props.handleClick(5)}>Five</td>
       <td></td>
       {props.upright > 5 ? <td onClick={() => props.handleClick(6)}>Six</td> : <td></td>}
       <td></td>
@@ -75,11 +75,11 @@ function FourthRow(props) {
     <tr>
       <td onClick={() => props.handleClick(7)}>Seven</td>
       <td></td>
-      {props.upright > 6 ? <td onClick={() => props.handleClick(8)}>Eight</td> : <td></td>}
+      {props.upright > 7 ? <td onClick={() => props.handleClick(8)}>Eight</td> : <td></td>}
       <td></td>
-      {props.upright > 7 ? <td onClick={() => props.handleClick(9)}>Nine</td> : <td></td>}
+      {props.upright > 8 ? <td onClick={() => props.handleClick(9)}>Nine</td> : <td></td>}
       <td></td>
-      {props.upright > 8 ? <td onClick={() => props.handleClick(10)}>Ten</td> : <td></td>}
+      {props.upright > 9 ? <td onClick={() => props.handleClick(10)}>Ten</td> : <td></td>}
     </tr>
   )
 }

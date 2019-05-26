@@ -9,3 +9,4 @@ node_modules
 ../challenge_1/package.json
 ../challenge_1/webpack.config.js
 ../server.js
+public/bundle.js

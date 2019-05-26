@@ -7,7 +7,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
-    publicPath: "/assets/"
+    publicPath: "/"
   },
   mode: "development",
   module: {
@@ -24,7 +24,12 @@ module.exports = {
       }
     ]
   },
-  resolve: { extensions: ["*", ".js", ".jsx"] },
+  resolve: {
+    extensions: ["*", ".js", ".jsx"],
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
   devServer: {
     publicPath: "http://localhost:8080/dist/",
   },

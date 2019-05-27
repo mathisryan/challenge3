@@ -10,6 +10,8 @@ function Pins(props) {
   return (
     <div>
       {props.upright === 0 && <h1>Game Over!</h1>}
+      <p>Frame: {props.status}</p>
+      <p>Score: {props.tally}</p>
       <table>
         <tbody>
           {props.upright > 0 && <FirstRow upright={props.upright} handleClick={handleSelect} />}
@@ -21,7 +23,7 @@ function Pins(props) {
           {props.upright > 3 && <ThirdRow upright={props.upright} handleClick={handleSelect} />}
         </tbody>
         <tbody>
-          {props.upright > 5 && <FourthRow upright={props.upright} handleClick={handleSelect} />}
+          {props.upright > 6 && <FourthRow upright={props.upright} handleClick={handleSelect} />}
         </tbody>
       </table>
     </div>

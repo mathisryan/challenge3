@@ -19,8 +19,10 @@ class App extends React.Component {
   }
 
   handleInput(count) {
+    // Handling a strike
     if (this.state.roll === 1 && count === 10) {
       window.alert('STRIKE!!!');
+      // Handling a strike before the last frame
       if (this.state.frame < 10) {
         var newFrame = this.state.frame + 1;
         var newScore = this.state.score + count;
@@ -33,6 +35,7 @@ class App extends React.Component {
           roll: 1,
           record: newRecord
         })
+      // Handling a strike in the last frame
       } else if (this.state.frame === 10) {
         var newFrame = 11;
         var newScore = this.state.score + count;
@@ -45,6 +48,7 @@ class App extends React.Component {
           roll: 1,
           record: newRecord
         })
+      // Handling a strike in the 11th frame after a strike in the 10th frame
       } else if (this.state.frame === 11 && this.state.record[this.state.frame - 2][0] === 'X') {
         var newFrame = 12;
         var newScore = this.state.score + count;
@@ -57,6 +61,7 @@ class App extends React.Component {
           roll: 1,
           record: newRecord
         })
+      // Handling a strike in the 11th frame after a spare in the 10th frame
       }  else if (this.state.frame === 11 && this.state.record[this.state.frame - 2][1] === '/') {
         var newScore = this.state.score + count;
         var newRecord = this.state.record;
@@ -66,6 +71,7 @@ class App extends React.Component {
           record: newRecord,
           finished: true
         })
+      // Handling a strike in the 12th frame
       } else if (this.state.frame === 12) {
         var newScore = this.state.score + count;
         var newRecord = this.state.record;
@@ -77,8 +83,10 @@ class App extends React.Component {
         })
       }
     };
+    // Handling a spare
     if (this.state.roll === 2 && count === this.state.pins) {
       window.alert('SPARE!!!');
+      // Handling a spare before the last frame
       if (this.state.frame < 10) {
         var newFrame = this.state.frame + 1;
         var newScore = this.state.score + count;
@@ -91,6 +99,7 @@ class App extends React.Component {
           roll: 1,
           record: newRecord
         })
+      // Handling a spare in the last frame
       } else if (this.state.frame === 10) {
         var newFrame = 11;
         var newScore = this.state.score + count;
@@ -105,22 +114,60 @@ class App extends React.Component {
         })
       }
     };
-    if (this.state.frame > 1 && this.state.record[this.state.frame - 2][0] === 'X' &&
-      count !== this.state.pins) {
+    // Handling the first roll after a strike
+    if (this.state.frame > 1 && this.state.frame <= 10 &&
+      this.state.record[this.state.frame - 2][0] === 'X' &&
+      count !== this.state.pins && this.state.roll === 1) {
         var newScore = this.state.score + count + count;
+        var newRecord = this.state.record;
+        newRecord.push([count, '']);
         this.setState({
-          score: newScore
+          score: newScore,
+          record: newRecord,
+          roll: 2
         })
-    };
-    if (this.state.frame > 1 && this.state.record[this.state.frame - 2][1] === '/' &&
+    // Handling the first roll after a spare
+    } else if (this.state.frame > 1 && this.state.frame <= 10 &&
+      this.state.record[this.state.frame - 2][1] === '/' &&
       this.state.roll === 1 && count < 10) {
         var newScore = this.state.score + count + count;
+        var newRecord = this.state.record;
+        newRecord.push([count, '']);
         this.setState({
-          score: newScore
+          score: newScore,
+          record: newRecord,
+          roll: 2
         })
+    // Handling the first roll
+    } else if (this.state.frame <= 10 && this.state.roll === 1 && this.state.pins > count) {
+      var current = this.state.pins - count;
+      var newScore = this.state.score + count;
+      var newRecord = this.state.record;
+      newRecord.push([count, '']);
+      this.setState({
+        score: newScore,
+        roll: 2,
+        record: newRecord,
+        pins: current
+      })
     };
-    if (this.state.frame < 10 && this.state.roll === 2 && this.state.pins > count) {
-      console.log('Second Roll');
+    // Handling the second roll after a strike
+    if (this.state.frame > 1 && this.state.frame < 10 &&
+      this.state.record[this.state.frame - 2][0] === 'X' &&
+      count !== this.state.pins && this.state.roll === 2) {
+        var newScore = this.state.score + count + count;
+        var newFrame = this.state.frame + 1;
+        var newRecord = this.state.record;
+        newRecord[this.state.frame - 1][1] = count;
+        this.setState({
+          frame: newFrame,
+          score: newScore,
+          roll: 1,
+          record: newRecord,
+          pins: 10
+        })
+    // Handling the second roll before the last frame
+    } else if (this.state.frame < 10 && this.state.roll === 2 && this.state.pins > count) {
       var newFrame = this.state.frame + 1;
       var newScore = this.state.score + count;
       var newRecord = this.state.record;
@@ -132,20 +179,8 @@ class App extends React.Component {
         record: newRecord,
         pins: 10
       })
-    }
-    if (this.state.frame <= 10 && this.state.roll === 1 && this.state.pins > count) {
-      var current = this.state.pins - count;
-      var newScore = this.state.score + count;
-      var newRecord = this.state.record;
-      newRecord.push([count, '']);
-      this.setState({
-        score: newScore,
-        roll: 2,
-        record: newRecord,
-        pins: current
-      })
-      }
-    if (this.state.frame === 10 && this.state.roll === 2 && this.state.pins > count) {
+    // Handling the second roll of the last frame
+    } else if (this.state.frame === 10 && this.state.roll === 2 && this.state.pins > count) {
       var newScore = this.state.score + count;
       var newRecord = this.state.record;
       newRecord[this.state.frame - 1][1] = count;
@@ -156,6 +191,7 @@ class App extends React.Component {
         finished: true
       })
     }
+    // Handling the first roll of the eleventh frame after a strike
     if (this.state.frame === 11 && this.state.record[this.state.frame - 2][0] === 'X' &&
       count < 10 && this.state.roll === 1) {
       var newScore = this.state.score + count;
@@ -167,6 +203,7 @@ class App extends React.Component {
         record: newRecord
       })
     }
+    // Handling the second roll of the eleventh frame after a strike
     if (this.state.frame === 11 && this.state.record[this.state.frame - 2][0] === 'X' &&
       count < 10 && this.state.roll === 2) {
       var newScore = this.state.score + count;
@@ -178,6 +215,7 @@ class App extends React.Component {
         finished: true
       })
     }
+    // Handling the first roll of the eleventh frame after a spare
     if (this.state.frame === 11 && this.state.record[this.state.frame - 2][1] === '/' &&
       count < 10) {
       var newScore = this.state.score + count;
@@ -189,6 +227,7 @@ class App extends React.Component {
         finished: true
       })
     }
+    // Handling a non-strike roll in the twelfth frame
     if (this.state.frame === 12 && count < 10) {
       var newScore = this.state.score + count;
       var newRecord = this.state.record;

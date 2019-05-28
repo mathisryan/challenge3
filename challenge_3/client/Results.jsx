@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom';
 function Results(props) {
   console.log(props.history);
   var rollOne = props.history.map((frame) => {
-    <td>{frame[0]}</td>
+    return <td>{frame[0]}</td>
   })
   var rollTwo = props.history.map((frame) => {
-    <td>{frame[1]}</td>
+    return <td>{frame[1]}</td>
   })
   return (
     <div>
